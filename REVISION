@@ -1,0 +1,4 @@
+module: tazaki/hadoop
+version: 0.0.1
+url: file:///var/lib/puppet/puppet-module/cache/file-947518d877fb275850a375d795be6a44c27ab526/tazaki-hadoop-0.0.1.tar.gz
+installed: Tue Jul 12 16:04:46 -0400 2011

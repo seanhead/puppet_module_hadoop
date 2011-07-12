@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+  <property>
+    <name>mapred.job.tracker</name>
+    <value><%= scope.lookupvar('hadoop::vars::jobtracker')%>:<%= scope.lookupvar('hadoop::vars::jobtracker_port')%></value>
+  </property>
+
+  <property>
+    <name>mapred.local.dir</name>
+    <value><% count = 1 %><% scope.lookupvar('hadoop::vars::dirs').each do |dir| -%><% if count == 1 %><%= dir -%>/hadoop/mapred/local<% else -%>,<%= dir %>/hadoop/mapred/local<% end -%><% count += 1 -%><% end -%></value>
+    <final>true</final>
+  </property>
+
+  <property>
+    <name>mapred.hosts.exclude</name>
+    <value><%= scope.lookupvar('hadoop::vars::home') %>/conf/excludes</value>
+    <final>true</final>
+  </property>
+
+  <property>
+    <name>mapreduce.map.child.java.opts</name>
+    <value>-Xmx1500M</value>
+  </property>
+
+  <property>
+    <name>mapreduce.reduce.child.java.opts</name>
+    <value>-Xmx1500M</value>
+  </property>
+
+  <!-- This is for hadoop to use fairscheduler
+  <property>
+    <name>mapred.jobtracker.taskScheduler</name>
+    <value>org.apache.hadoop.mapred.FairScheduler</value>
+  </property> -->
+
+ <!-- These are per jobtracker settings -->
+  <property>
+    <name>mapred.tasktracker.map.tasks.maximum</name>
+    <value><%= scope.lookupvar('hadoop::vars::map_tasks') %></value>
+  </property>
+
+  <property>
+    <name>mapred.tasktracker.reduce.tasks.maximum</name>
+    <value><%= scope.lookupvar('hadoop::vars::reduce_tasks') %></value>
+  </property>
+
+
+</configuration>
