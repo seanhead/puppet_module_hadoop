@@ -1,5 +1,4 @@
 class hadoop::config {
-	include hadoop::vars
 	$java_home="/usr/java/latest"
 
 	File { require => Class["hadoop::install"] }
