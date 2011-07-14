@@ -1,3 +1,31 @@
+# Class: hadoop::secondary_namenode
+#
+# This module configures a node as a hadoop secondary namenode
+#
+# Parameters:
+#
+#  $enabled = true
+#
+# Actions:
+#
+#  Calls the hadoop class and configures the secondary namenode service
+#
+# Requires:
+#
+# Sample Usage:
+#  To enable the secondary namenode:
+#
+#  class { "hadoop::secondary_namenode": enabled => true }
+#  
+#  or
+#
+#  include hadoop::secondary namenode
+#
+#  To disable the secondary namenode:
+#
+#  class { "hadoop::secondary_namenode": enabled => false } 
+#
+# [Remember: No empty lines between comments and class definition]
 class hadoop::secondary_namenode ($enabled = true) {
 	include hadoop
 	

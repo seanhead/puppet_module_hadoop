@@ -1,3 +1,31 @@
+# Class: hadoop::jobtracker
+#
+# This module configures a node as a hadoop jobtracker
+#
+# Parameters:
+#
+#  $enabled = true
+#
+# Actions:
+#
+#  Calls the hadoop class and configures the jobtracker service
+#
+# Requires:
+#
+# Sample Usage:
+#  To enable the jobtracker:
+#
+#  class { "hadoop::jobtracker": enabled => true }
+#  
+#  or
+#
+#  include hadoop::jobtracker
+#
+#  To disable the jobtracker:
+#
+#  class { "hadoop::jobtracker": enabled => false } 
+#
+# [Remember: No empty lines between comments and class definition]
 class hadoop::jobtracker ($enabled = true) {
         include hadoop
 

@@ -1,7 +1,27 @@
+# Class: hadoop::install
+#
+# This module installs the package and users required for hadoop
+#
+# Parameters:
+#
+# Actions:
+#
+#  Installs hadoop package, creates current symlink, hadoop user, and sets permissions
+#
+# Requires:
+#
+# Sample Usage:
+#
+#  include hadoop::install
+#
+# [Remember: No empty lines between comments and class definition]
 class hadoop::install {
-	include jdk
-	include hadoop::vars
-
+		if !defined Package["jdk"] {
+			package {"jdk":
+					ensure => $hadoop::vars::java_rpm_version,
+					provider => "yum",
+			}
+		}
         package {"hadoop":
                 ensure   => $hadoop::vars::rpm_version,
                 provider => "yum",

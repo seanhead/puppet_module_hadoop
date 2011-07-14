@@ -1,12 +1,31 @@
-class hadoop::config {
-	$java_home="/usr/java/latest"
-
-	File { require => Class["hadoop::install"] }
+# Class: hadoop::config
+#
+# This module manages the configuration of hadoop.
+#
+# Parameters:
+#
+# Actions:
+#  Populates the following config files in hadoops conf directory:
+#   - hadoop-env.sh
+#   - core-site.xml
+#   - hdfs-site.xml
+#   - excludes (just creates the file for now...)
+#   - calls the hadoop::setup_cloud_dirs function
+#
+# Requires:
+#
+# Sample Usage:
+#
+#  include hadoop::config
+#
+# [Remember: No empty lines between comments and class definition]
+class hadoop::config {	
 	
 	# File defaults
 	File {
 		owner => $hadoop::vars::user,
 		group => $hadoop::vars::group,
+		require => Class["hadoop::install"],
 	}
 
 	# Hadoop configs

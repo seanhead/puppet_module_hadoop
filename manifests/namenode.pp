@@ -1,3 +1,31 @@
+# Class: hadoop::namenode
+#
+# This module configures a node as a hadoop namenode
+#
+# Parameters:
+#
+#  $enabled = true
+#
+# Actions:
+#
+#  Calls the hadoop class and configures the namenode service
+#
+# Requires:
+#
+# Sample Usage:
+#  To enable the namenode:
+#
+#  class { "hadoop::namenode": enabled => true }
+#  
+#  or
+#
+#  include hadoop::namenode
+#
+#  To disable the namenode:
+#
+#  class { "hadoop::namenode": enabled => false } 
+#
+# [Remember: No empty lines between comments and class definition]
 class hadoop::namenode ($enabled = true) {
 	include hadoop
 

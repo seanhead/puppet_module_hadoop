@@ -1,3 +1,31 @@
+# Class: hadoop::datanode
+#
+# This module configures a node as a hadoop datanode
+#
+# Parameters:
+#
+#  $enabled = true
+#
+# Actions:
+#
+#  Calls the hadoop class and configures the datanode service
+#
+# Requires:
+#
+# Sample Usage:
+#  To enable the datanode:
+#
+#  class { "hadoop::datanode": enabled => true }
+#  
+#  or
+#
+#  include hadoop::datanode
+#
+#  To disable the datanode:
+#
+#  class { "hadoop::datanode": enabled => false } 
+#
+# [Remember: No empty lines between comments and class definition]
 class hadoop::datanode ($enabled = true) {
 	include hadoop
 

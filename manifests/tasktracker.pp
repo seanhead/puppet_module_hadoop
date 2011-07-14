@@ -1,3 +1,31 @@
+# Class: hadoop::tasktracker
+#
+# This module configures a node as a hadoop tasktracker
+#
+# Parameters:
+#
+#  $enabled = true
+#
+# Actions:
+#
+#  Calls the hadoop class and configures the tasktracker service
+#
+# Requires:
+#
+# Sample Usage:
+#  To enable the tasktracker:
+#
+#  class { "hadoop::tasktracker": enabled => true }
+#  
+#  or
+#
+#  include hadoop::tasktracker
+#
+#  To disable the tasktracker:
+#
+#  class { "hadoop::tasktracker": enabled => false } 
+#
+# [Remember: No empty lines between comments and class definition]
 class hadoop::tasktracker ($enabled = true) {
 	include hadoop
         file { "hadoop_tasktracker_service":
