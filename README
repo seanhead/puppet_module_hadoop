@@ -1,3 +1,66 @@
-hadoop
+This is a puppet module for installing, configuring and starting the hadoop (http://hadoop.apache.org/) hdfs and mapreduce services.
 
-This is the hadoop module.
+NOTE: This module was mainly tested on RHEL/CentOS 5 using puppet 2.6.x
+
+* Requirements:
+	- hadoop built into an rpm (source installs will be supported soon)
+	- puppet ( 2.6+ recommended) installed on all servers
+
+Usage:
+1. Define the following in hadoop::vars:
+	- hadoop version
+	- hadoop rpm version
+	- hadoop home
+	- jdk rpm version
+	- jdk home
+
+2. Add the required classes to nodes in pupppet.
+
+* Example usage:
+
+	node "r01sv01.jnet.lan" {
+		include hadoop::namenode
+	}
+
+	node "r01sv02.jnet.lan" {
+		include hadoop::jobtracker
+		include hadoop::secondary_namenode
+	}
+
+	node "r01sv03.jnet.lan" {
+		include hadoop::datanode
+		include hadoop::tasktracker
+	}
+
+	node "r01sv04.jnet.lan" {
+		# This node has more cpus/ram then others
+		
+		# Define the node specific differences in configuration
+		class {"hadoop::vars":
+			maptasks => 3,
+			reducetasks => 5
+		}
+		
+		# Include the service classes
+		include hadoop::datanode
+		include hadoop::tasktracker
+	}
+
+	node "r01sv05.jnet.lan" {
+		# This node has several harddrives already mounted
+		
+		# Define the node specific differences in configuration
+		class {"hadoop::vars":
+			clouddirs = ["/disk1","/disk2"]
+		}
+		
+		# Include the service classes
+		include hadoop::datanode
+		include hadoop::tasktracker
+	}
+
+	node "r01sv06.jnet.lan" {
+		# This node will be retired soon so the services are disabled
+		class {"hadoop::datanode": enabled => false }
+		class {"hadoop::tasktracker": enabled => false }
+	}
