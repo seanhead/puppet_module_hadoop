@@ -16,13 +16,14 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class hadoop::install {
-		if !defined Package["jdk"] {
-			package {"jdk":
-					ensure => $hadoop::vars::java_rpm_version,
-					provider => "yum",
-			}
+	if !defined Package["jdk"] {
+		package {"jdk":
+				ensure => $hadoop::vars::java_rpm_version,
+				provider => "yum",
 		}
-        package {"hadoop":
+	}
+        
+	package {"hadoop":
                 ensure   => $hadoop::vars::rpm_version,
                 provider => "yum",
                 require  => Package["jdk"],
