@@ -14,9 +14,15 @@ Usage:
 	- jdk rpm version
 	- jdk home
 
-2. Add the required classes to nodes in pupppet.
+2. Add the required classes to nodes in pupppet
+3. Run puppet on the namenode first.
+4. Format the namenode (ONLY DO THIS ON A FRESH INSTALL). As the hadoop user run:
 
-* Example usage:
+	hadoop namenode -format
+
+5. Run puppet on the rest of the nodes
+
+Example usage:
 
 	node "r01sv01.jnet.lan" {
 		include hadoop::namenode
