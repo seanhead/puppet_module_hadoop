@@ -13,7 +13,7 @@ export HADOOP_HDFS_HOME=$HADOOP_HOME
 export HADOOP_MAPRED_HOME=$HADOOP_HOME
 
 # The java implementation to use.  Required.
-export JAVA_HOME=<%= java_home %>
+export JAVA_HOME=<%= scope.lookupvar('hadoop::vars::java_home') %>
 
 # Extra Java CLASSPATH elements.  Optional.
 export HADOOP_CLASSPATH=./:<%= scope.lookupvar('hadoop::vars::hadoop_home') %>/conf:<%= scope.lookupvar('hadoop::vars::hadoop_home') %>/build/*:

@@ -48,7 +48,7 @@ class hadoop::vars (
 	
 	# Java variables
 	$java_home="/usr/java/latest"
-	$java_rpm_version="1.6.0_25-fcs""
+	$java_rpm_version="1.6.0_25-fcs"
 
 	# Class variables
 	# These are set by overriding the default values
