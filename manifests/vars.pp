@@ -33,7 +33,8 @@ class hadoop::vars (
 	$dfsreplication=3,
 	$namenodeport=9000,
 	$jobtrackerport=9001,
-	$clouddirs=''
+	$clouddirs='',
+	$source=false
 ) {
 	# Change these to your namenode/jobtracker hostnames
 	$namenode="r01sv01.jnet.lan"
