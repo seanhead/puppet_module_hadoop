@@ -22,7 +22,9 @@ define hadoop::setup_cloud_dirs {
 	File { ensure  => directory }
 	Exec { path    => "/bin" }
 
-	file { $name: }
+	if !defined(File[$name]){
+		file { $name: }
+	}
 	file { "${name}/hadoop": }
 	file { "${name}/hadoop/hdfs": }
 	file { "${name}/hadoop/hdfs/name": }
