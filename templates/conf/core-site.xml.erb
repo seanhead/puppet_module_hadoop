@@ -7,6 +7,5 @@
 	<property>
 		<name>fs.default.name</name>
 		<value>hdfs://<%= scope.lookupvar('hadoop::vars::namenode') %>:<%= scope.lookupvar('hadoop::vars::namenode_port') %>/</value>
-		<final>true</final>
 	</property>
 </configuration>

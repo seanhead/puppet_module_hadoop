@@ -20,13 +20,18 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class hadoop::config {	
-	
 	# File defaults
 	File {
 		owner => $hadoop::vars::user,
 		group => $hadoop::vars::group,
 		require => Class["hadoop::install"],
 	}
+
+	exec {'chown_hadoop_home':
+                path    => '/bin',
+                command => "chown -R ${hadoop::vars::user}.${hadoop::vars::group} ${hadoop::vars::home}",
+		require => Class["hadoop::install"],
+        }
 
 	# Hadoop configs
 	file {  "hadoop_env":

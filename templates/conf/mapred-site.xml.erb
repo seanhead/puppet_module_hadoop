@@ -23,13 +23,8 @@
   </property>
 
   <property>
-    <name>mapreduce.map.child.java.opts</name>
-    <value>-Xmx1500M</value>
-  </property>
-
-  <property>
-    <name>mapreduce.reduce.child.java.opts</name>
-    <value>-Xmx1500M</value>
+    <name>mapred.child.java.opts</name>
+    <value>-Xmx1500M -XX:MaxPermSize=128m</value>
   </property>
 
   <!-- This is for hadoop to use fairscheduler

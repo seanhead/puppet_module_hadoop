@@ -37,11 +37,12 @@ class hadoop::vars (
 	$source=false
 ) {
 	# Change these to your namenode/jobtracker hostnames
-	$namenode="r01sv01.jnet.lan"
-	$jobtracker="r01sv02.jnet.lan"
+	$namenode="puppet"
+	$jobtracker="puppet"
 
 	# Hadoop variables
-	$version="0.20.2"
+	#$version="0.20.2"
+	$version="0.20.203.0"
 	$rpm_version="0.20.2-1"
 	$home="/opt/hadoop/hadoop-${version}"
 	$user="hadoop"
@@ -64,5 +65,11 @@ class hadoop::vars (
 		$dirs = split($cloud_dirs, ',')
 	} else {
 		$dirs = $clouddirs
+	}
+
+	if $source {
+		$source_name = "hadoop-0.20.203.0rc1.tar.gz"
+		$source_location = "http://puppet/${source_name}"
+		$basedir = "/opt/hadoop"
 	}
 }

@@ -23,17 +23,40 @@ class hadoop::install {
 		}
 	}
         
-	package {"hadoop":
-                ensure   => $hadoop::vars::rpm_version,
-                provider => "yum",
-                require  => Package["jdk"],
-        }
+	file {"hadoop_dir":
+		path => "/opt/hadoop",
+		ensure => directory,
+	}
+	
+	if !$hadoop::vars::source {
+		package {"hadoop":
+                	ensure   => $hadoop::vars::rpm_version,
+                	provider => "yum",
+                	require  => Package["jdk"],
+        	}
+	} else {
+		exec {"get_source":
+			path    => "/usr/bin",
+			command => "wget -P ${hadoop::vars::basedir} ${hadoop::vars::source_location}",
+			require => File["hadoop_dir"],
+			notify => Exec["extract_source"],
+			#onlyif => "test -e ${hadoop::vars::basedir}/${hadoop::vars::source_name}"
+			creates => "${hadoop::vars::basedir}/${hadoop::vars::source_name}"
+		}
+
+		exec {"extract_source":
+			path    => "/bin",
+			command => "tar xf ${hadoop::vars::basedir}/${hadoop::vars::source_name} -C ${hadoop::vars::basedir}",
+			require => File["hadoop_dir"],
+			refreshonly => true,
+		}
+	}	
 
         file {'hadoop_symlink':
                 ensure  => link,
                 path    => '/opt/hadoop/hadoop-current',
                 target  => $hadoop::vars::home,
-		require => Package["hadoop"],
+		require => File["hadoop_dir"],
         }
 
 	if !defined(User[$hadoop::vars::user]) {
@@ -44,10 +67,4 @@ class hadoop::install {
         	        uid => 5000
 	        }
 	}
-
-	exec {'chown_hadoop_home':
-                path    => '/bin',
-                command => "chown -R ${hadoop::vars::user}.${hadoop::vars::group} ${hadoop::vars::home}",
-                require => [Package["hadoop"],User[$hadoop::vars::user]],
-        }
 }
