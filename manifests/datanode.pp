@@ -49,10 +49,10 @@ class hadoop::datanode ($enabled = true) {
 			false    => 'stopped',
             		default  => 'stopped',
         	},
-		require => [Class["hadoop::install"],
-			    Class["hadoop::config"],
-			    #Class["hadoop::clouddirs"],
-			    File["hadoop_datanode_service"]],
+		hasrestart => true,
+		require    => [Class["hadoop::install"],
+			       Class["hadoop::config"],
+			        File["hadoop_datanode_service"]],
         }
 
 }

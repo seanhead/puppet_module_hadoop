@@ -53,5 +53,4 @@ class hadoop::config {
 	
 	# Create the directories
 	hadoop::setup_cloud_dirs { $hadoop::vars::dirs: }
-
 }

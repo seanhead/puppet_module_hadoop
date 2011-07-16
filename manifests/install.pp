@@ -22,7 +22,16 @@ class hadoop::install {
 				provider => "yum",
 		}
 	}
-        
+ 
+	if !defined(User[$hadoop::vars::user]) {
+		user { $hadoop::vars::user:
+	                ensure     => present,
+	                home       => '/home/hadoop',
+                	managehome => true,
+        	        uid        => 5000
+	        }
+	}
+       
 	file {"hadoop_dir":
 		path => "/opt/hadoop",
 		ensure => directory,
@@ -38,17 +47,16 @@ class hadoop::install {
 		exec {"get_source":
 			path    => "/usr/bin",
 			command => "wget -P ${hadoop::vars::basedir} ${hadoop::vars::source_location}",
+			notify  => Exec["extract_source"],
+			creates => "${hadoop::vars::basedir}/${hadoop::vars::source_name}",
 			require => File["hadoop_dir"],
-			notify => Exec["extract_source"],
-			#onlyif => "test -e ${hadoop::vars::basedir}/${hadoop::vars::source_name}"
-			creates => "${hadoop::vars::basedir}/${hadoop::vars::source_name}"
 		}
 
 		exec {"extract_source":
-			path    => "/bin",
-			command => "tar xf ${hadoop::vars::basedir}/${hadoop::vars::source_name} -C ${hadoop::vars::basedir}",
-			require => File["hadoop_dir"],
+			path        => "/bin",
+			command     => "tar xf ${hadoop::vars::basedir}/${hadoop::vars::source_name} -C ${hadoop::vars::basedir}",
 			refreshonly => true,
+			require     => File["hadoop_dir"],
 		}
 	}	
 
@@ -58,13 +66,4 @@ class hadoop::install {
                 target  => $hadoop::vars::home,
 		require => File["hadoop_dir"],
         }
-
-	if !defined(User[$hadoop::vars::user]) {
-		user { $hadoop::vars::user:
-	                ensure => present,
-	                home => '/home/hadoop',
-                	managehome => true,
-        	        uid => 5000
-	        }
-	}
 }

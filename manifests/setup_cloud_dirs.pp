@@ -25,6 +25,7 @@ define hadoop::setup_cloud_dirs {
 	if !defined(File[$name]){
 		file { $name: }
 	}
+
 	file { "${name}/hadoop": }
 	file { "${name}/hadoop/hdfs": }
 	file { "${name}/hadoop/hdfs/name": }
