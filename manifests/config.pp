@@ -51,6 +51,6 @@ class hadoop::config {
 	                ensure  => present;
 	}
 	
-	# Create the directories
+	# Create the local directories
 	hadoop::setup_cloud_dirs { $hadoop::vars::dirs: }
 }

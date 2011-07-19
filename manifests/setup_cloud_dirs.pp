@@ -19,22 +19,27 @@
 #
 # [Remember: No empty lines between comments and class definition]
 define hadoop::setup_cloud_dirs {
+	# File defaults
 	File { ensure  => directory }
-	Exec { path    => "/bin" }
 
+	# Setup single directory structure
 	if !defined(File[$name]){
 		file { $name: }
 	}
 
-	file { "${name}/hadoop": }
-	file { "${name}/hadoop/hdfs": }
-	file { "${name}/hadoop/hdfs/name": }
-	file { "${name}/hadoop/hdfs/data": }
-	file { "${name}/hadoop/mapred": }
-	file { "${name}/hadoop/mapred/local": }
-	file { "${name}/hadoop/hdfs/secondaryname": }
+	file { 
+		"${name}/hadoop":; 
+		"${name}/hadoop/hdfs":; 
+		"${name}/hadoop/hdfs/name":; 
+		"${name}/hadoop/hdfs/data":; 
+		"${name}/hadoop/mapred":; 
+		"${name}/hadoop/mapred/local":;
+		"${name}/hadoop/hdfs/secondaryname":; 
+	}
 
+	# Set permissions
 	exec { "chown ${name}/hadoop":
+		path    => "/bin",
 		command => "chown -R ${hadoop::vars::user}:${hadoop::vars::group} ${name}/hadoop",
 		require => [Class["hadoop::install"],
 			     File["${name}/hadoop/hdfs/name"],

@@ -1,4 +1,4 @@
-# harddrives.rb
+# cloud_dirs.rb
 
 Facter.add("cloud_dirs") do
         setcode do

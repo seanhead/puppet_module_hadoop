@@ -6,10 +6,8 @@
 #
 #  $reducetasks=2
 #  $maptasks=2,
-#  $dfsreplication=3,
-#  $namenodeport=9000,
-#  $jobtrackerport=9001,
 #  $clouddirs=''
+#  $source=false
 #  [NOTE: Override this to manually specify local directories]
 #
 # Actions:
@@ -23,16 +21,13 @@
 #  class { "hadoop::vars":
 #  		maptasks => 3,
 #		reducetasks => 4,
-#		clouddirs => ["/disk0","/disk1"]
+#		clouddirs => ["/disk0","/disk1"],
 #   }
 #
 # [Remember: No empty lines between comments and class definition]
 class hadoop::vars ( 
 	$reducetasks=2,
 	$maptasks=2,
-	$dfsreplication=3,
-	$namenodeport=9000,
-	$jobtrackerport=9001,
 	$clouddirs='',
 	$source=false
 ) {
@@ -45,9 +40,14 @@ class hadoop::vars (
 	$version="0.20.203.0"
 	$rpm_version="0.20.2-1"
 	$home="/opt/hadoop/hadoop-${version}"
+	$basedir = "/opt/hadoop"
+
 	$user="hadoop"
 	$group="hadoop"
-	
+	$dfs_replication=3
+	$namenode_port=9000
+	$jobtracker_port=9001
+
 	# Java variables
 	$java_home="/usr/java/latest"
 	$java_rpm_version="1.6.0_25-fcs"
@@ -56,20 +56,20 @@ class hadoop::vars (
 	# These are set by overriding the default values
 	$map_tasks=$maptasks
 	$reduce_tasks=$reducetasks
-	$dfs_replication=$dfsreplication
-	$namenode_port=$namenodeport
-	$jobtracker_port=$jobtrackerport
-
-	# Use cloud_dirs fact unless directories are passed in
+	
+	# Use cloud_dirs fact unless directories are passed into class
 	if !$clouddirs {
 		$dirs = split($cloud_dirs, ',')
 	} else {
 		$dirs = $clouddirs
 	}
-
+	
+	# If source is true, you need to define the following vars:
 	if $source {
+		# Name of the hadoop source package
 		$source_name = "hadoop-0.20.203.0rc1.tar.gz"
+		# Where to get the hadoop source package
 		$source_location = "http://puppet/${source_name}"
-		$basedir = "/opt/hadoop"
+		# NOTE: $basedir is the directory where hadoop will be extracted to
 	}
 }

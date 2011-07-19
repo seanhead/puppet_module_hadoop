@@ -26,8 +26,6 @@ class hadoop::install {
 	if !defined(User[$hadoop::vars::user]) {
 		user { $hadoop::vars::user:
 	                ensure     => present,
-	                home       => '/home/hadoop',
-                	managehome => true,
         	        uid        => 5000
 	        }
 	}
@@ -36,7 +34,16 @@ class hadoop::install {
 		path => "/opt/hadoop",
 		ensure => directory,
 	}
-	
+
+	file {'hadoop_symlink':
+                ensure  => link,
+                path    => "${hadoop::vars::basedir}/hadoop-current",
+                target  => $hadoop::vars::home,
+		require => File["hadoop_dir"],
+        }
+
+
+	# If $source is true in hadoop::vars	
 	if !$hadoop::vars::source {
 		package {"hadoop":
                 	ensure   => $hadoop::vars::rpm_version,
@@ -60,10 +67,4 @@ class hadoop::install {
 		}
 	}	
 
-        file {'hadoop_symlink':
-                ensure  => link,
-                path    => '/opt/hadoop/hadoop-current',
-                target  => $hadoop::vars::home,
-		require => File["hadoop_dir"],
-        }
 }
